@@ -31,15 +31,7 @@ class TestArgumentParser(unittest.TestCase):
         options = Options(sys.argv)
         assert options.clear_cookies
 
-    @patch("sys.argv", ["script_name", "list", "999", "-m"])
-    def test_set_see_directories(self):
-        """
-        Test of folder mode flag
-        """
-        options = Options(sys.argv)
-        assert options.folder_mode
-
-    @patch("sys.argv", ["script_name", "list", "999", "-d", "test_dir"])
+    @patch("sys.argv", ["script_name", "list", "999", "test_dir"])
     def test_set_directory(self):
         """
         Test of custom directory argument
@@ -47,7 +39,7 @@ class TestArgumentParser(unittest.TestCase):
         options = Options(sys.argv)
         assert options.dir == "test_dir/"
 
-    @patch("sys.argv", ["script_name", "list", "999", "-r"])
+    @patch("sys.argv", ["script_name", "list", "999"])
     def test_set_recursive(self):
         """
         Test of recursive flag
@@ -55,17 +47,16 @@ class TestArgumentParser(unittest.TestCase):
         options = Options(sys.argv)
         assert options.recursive
 
-    @patch("sys.argv", ["script_name", "list", "999", "-m", "-d", "test_dir"])
-    def test_set_both_folder_files(self):
+    @patch("sys.argv", ["script_name", "list", "999", "-n"])
+    def test_set_non_recursive(self):
         """
-        Test of folder mode with custom directory
+        Test of recursive flag
         """
         options = Options(sys.argv)
-        assert options.folder_mode
-        assert options.dir == "test_dir/"
+        assert not options.recursive
 
-    @patch("sys.argv", ["script_name", "list", "999", "-r", "-d", "test_dir"])
-    def test_set_both_recursive_files(self):
+    @patch("sys.argv", ["script_name", "list", "999", "test_dir"])
+    def test_set_recursive_directory(self):
         """
         Test of recursive flag with custom directory
         """
@@ -73,7 +64,16 @@ class TestArgumentParser(unittest.TestCase):
         assert options.recursive
         assert options.dir == "test_dir/"
 
-    @patch("sys.argv", ["script_name", "all", "999", "-o", "test_dir"])
+    @patch("sys.argv", ["script_name", "list", "-n", "999", "test_dir"])
+    def test_set_non_recursive_directory(self):
+        """
+        Test of recursive flag with custom directory
+        """
+        options = Options(sys.argv)
+        assert not options.recursive
+        assert options.dir == "test_dir/"
+
+    @patch("sys.argv", ["script_name", "download", "999", "-o", "test_dir"])
     def test_set_output(self):
         """
         Test of output directory argument
@@ -81,7 +81,7 @@ class TestArgumentParser(unittest.TestCase):
         options = Options(sys.argv)
         assert options.output == "test_dir"
 
-    @patch("sys.argv", ["script_name", "all", "999", "-t", "4"])
+    @patch("sys.argv", ["script_name", "download", "999", "-t", "4"])
     def test_set_threads(self):
         """
         Test of thread count argument
@@ -89,10 +89,18 @@ class TestArgumentParser(unittest.TestCase):
         options = Options(sys.argv)
         assert options.threads == 4
 
-    @patch("sys.argv", ["script_name", "all", "999", "-r"])
+    @patch("sys.argv", ["script_name", "download", "999"])
     def test_set_recursive_download(self):
         """
         Test of recursive download flag
         """
         options = Options(sys.argv)
         assert options.recursive
+
+    @patch("sys.argv", ["script_name", "download", "999", "-n"])
+    def test_set_non_recursive_download(self):
+        """
+        Test of non recursive download flag
+        """
+        options = Options(sys.argv)
+        assert not options.recursive

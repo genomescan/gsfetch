@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 from typing import Dict, List, Union
 
 from src.helpers.parallel_download import download_parallel
@@ -18,13 +19,8 @@ def get_url(session, datafiles: List[Dict[str, Union[str, int]]]) -> None:
 
     for file in datafiles:
         fsize = file["size"] if file["size"] != 0 else 1
-        fname = (
-            os.path.join(
-                session.options.output, file["name"].replace("\\", "/").split("/")[-1]
-            )
-            if not session.options.dir == "./" and not session.options.recursive
-            else os.path.join(session.options.output, os.path.normpath(file["name"]))
-        )
+        fname = file["name"]
+        fname = Path(f"{session.options.output}/{os.path.normpath(fname)}").as_posix()
         filename = os.path.join(session.options.project, file["name"])
         dl_sum += fsize
         filename = filename.replace("\\", "/")

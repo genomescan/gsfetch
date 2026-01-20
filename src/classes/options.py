@@ -56,7 +56,15 @@ class Options:
         project_parser.add_argument(
             "PROJECT", help="[projectcode] for specific projects"
         )
+
         download_and_listing_shared = argparse.ArgumentParser(add_help=False)
+        download_and_listing_shared.add_argument(
+            "-n",
+            "--non-recursive",
+            action="store_true",
+            help="Show files in the root directory"
+            "Files in the root directory or [DIR]",
+        )
         downloads_shared = argparse.ArgumentParser(add_help=False)
         downloads_shared.add_argument(
             "-o",
@@ -74,18 +82,11 @@ class Options:
             epilog=LIST_EXAMPLE_MESSAGE,
             parents=[project_parser, download_and_listing_shared],
         )
-        subparser_list.add_argument(
+        list_options_group = subparser_list.add_mutually_exclusive_group()
+        list_options_group.add_argument(
             "PATH",
             nargs="?",
             default=".",
-            help="Show files in the root directory"
-            "Files in the root directory or [DIR]",
-        )
-        list_options_group = subparser_list.add_mutually_exclusive_group()
-        list_options_group.add_argument(
-            "-n",
-            "--non-recursive",
-            action="store_true",
             help="Show files in the root directory"
             "Files in the root directory or [DIR]",
         )
@@ -97,19 +98,15 @@ class Options:
             help="download specified files",
             description="this allows the download of individual files, use the full path for files",
             epilog=DOWNLOAD_EXAMPLE_MESSAGE,
-            parents=[project_parser, downloads_shared],
-        )
-        subparser_download.add_argument(
-            "-n",
-            "--non-recursive",
-            action="store_true",
-            help="Show files in the root directory"
-            "Files in the root directory or [DIR]",
+            parents=[project_parser, downloads_shared, download_and_listing_shared],
         )
         subparser_download.add_argument(
             "TARGET",
             help="Directories/Files to download seperated by spaces",
             nargs="*",
+        )
+        subparser_download.add_argument(
+            "-t", "--threads", type=int, default=os.cpu_count()
         )
         subparser_download.set_defaults(func=self.D)
 
@@ -164,5 +161,5 @@ class Options:
         self.recursive = not args.non_recursive
         self.download = args.TARGET
         self.project = args.PROJECT
-        self.threads = os.cpu_count()
+        self.threads = args.threads
         self.output = args.output

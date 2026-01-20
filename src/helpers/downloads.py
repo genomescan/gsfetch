@@ -20,19 +20,26 @@ def _get_file_names(files: List[Dict[str, str]]) -> Dict[str, Dict[str, str]]:
     return file_names
 
 
-def expand_directory(tree, base_path=""):
+def expand_directory(
+    tree: Dict, target: str, recursive, proceed: bool = True, base_path=""
+):
     "Function to walk a directory and retrieve its filenames"
     files = []
     if isinstance(tree, dict) and "data" in tree:
         for item in tree["data"]:
-            files.extend(expand_directory(item, base_path))
+            files.extend(expand_directory(item, target, recursive, base_path=base_path))
         return files
     current_path = Path(f"{base_path}/{tree['name']}".lstrip("/")).as_posix()
     if not tree.get("children"):
         files.append(current_path)
         return files
-    for child in tree["children"]:
-        files.extend(expand_directory(child, current_path))
+    if recursive or proceed:
+        # If is not recursive should only download first level of target directory
+        proceed = not (proceed and current_path == target)
+        for child in tree["children"]:
+            files.extend(
+                expand_directory(child, target, recursive, proceed, current_path)
+            )
 
     return files
 
@@ -47,7 +54,13 @@ def _expand_requested(session, requested: List[str]) -> List[str]:
                 params={"cd": Path(f"{session.options.project}/{file}").as_posix()},
                 verify=CA_BUNDLE,
             )
-            expanded.extend(expand_directory(response.json()))
+            expanded.extend(
+                expand_directory(
+                    response.json(),
+                    Path(f"{session.options.project}/{file}").as_posix(),
+                    session.options.recursive,
+                )
+            )
         else:
             expanded.append(Path(f"{session.options.project}/{file}").as_posix())
 
@@ -66,9 +79,7 @@ def download(session: Session) -> None:
     ):
         session.options.dir = session.options.project + "/" + session.options.dir
     datafiles = []
-    if session.options.download or (
-        session.options.download_all and session.options.recursive
-    ):
+    if session.options.download or session.options.recursive:
         response = requests.get(
             session.options.host
             + DOWNLOAD_FILE_URL
@@ -96,7 +107,8 @@ def download(session: Session) -> None:
         exit(1)
     datafiles = get_list(response.json(), session.options.output)
     if session.options.download:
-        requested = _expand_requested(session, session.options.download)
+        # Remove duplicates if present
+        requested = list(set(_expand_requested(session, session.options.download)))
         allowed = _get_file_names(datafiles)
 
         datafiles = []

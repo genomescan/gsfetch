@@ -9,5 +9,4 @@ def is_file(file: Dict | str) -> bool:
     """
     if isinstance(file, Dict):
         return file["size"] is not None
-    print(file)
     return False if "." not in file else True

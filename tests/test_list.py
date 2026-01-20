@@ -35,95 +35,11 @@ class TestListcommand(unittest.TestCase):
 
         return ansi_escape.sub("", text)
 
-    @patch("sys.argv", ["script_name", "list", "999", "-m"])
-    @patch("http.cookiejar.MozillaCookieJar.load")
-    def test_folder_mode(self, mock_load):
-        """
-        Test list command when folder mode is set
-        """
-        cookie_mock = mock_open(read_data=get_mock_cookie_jar())
-
-        original_open = open
-
-        with patch("builtins.open", cookie_mock):
-            with requests_mock.Mocker() as m:
-                m.get(
-                    f"{HOST_URL}{LOGGED_IN_URL}",
-                    text='{"logged_in": true}',
-                    status_code=200,
-                )
-
-                with original_open(
-                    "tests/assets/recursive_mock.json", "r"
-                ) as recursive_mock_file:
-                    recursive_mock = recursive_mock_file.read()
-
-                m.get(
-                    f"{HOST_URL}{LIST_RECURSIVE}999?cd=999",
-                    text=recursive_mock,
-                )
-
-                captured = StringIO()
-                sys.stdout = captured
-
-                main()
-
-                captured = captured.getvalue()
-
-                expected_output = (
-                    "[session] cookies found.\n999\n└──test_map_salah\n└──test_999\n"
-                )
-
-                self.assertEqual(
-                    self.remove_ansi_escape_sequences(captured), expected_output
-                )
-
-    @patch("sys.argv", ["script_name", "list", "999"])
+    @patch("sys.argv", ["script_name", "list", "999", "-n"])
     @patch("http.cookiejar.MozillaCookieJar.load")
     def test_show_files_from_project(self, mock_load):
         """
         Test list command shows files under the projects
-        """
-        cookie_mock = mock_open(read_data=get_mock_cookie_jar())
-
-        original_open = open
-
-        with patch("builtins.open", cookie_mock):
-            with requests_mock.Mocker() as m:
-                m.get(
-                    f"{HOST_URL}{LOGGED_IN_URL}",
-                    text='{"logged_in": true}',
-                    status_code=200,
-                )
-
-                with original_open(
-                    "tests/assets/project_files.json", "r"
-                ) as project_files:
-                    project_files = project_files.read()
-
-                m.get(
-                    f"{HOST_URL}{LIST_RECURSIVE}999?cd=999",
-                    text=project_files,
-                )
-
-                captured = StringIO()
-                sys.stdout = captured
-
-                main()
-
-                captured = captured.getvalue()
-
-                expected_output = "[session] cookies found.\n999\n└── test_10G.txt Size:  10.0GB\n└── test2_10G.txt Size:  10.0GB\n"
-
-                self.assertEqual(
-                    self.remove_ansi_escape_sequences(captured), expected_output
-                )
-
-    @patch("sys.argv", ["script_name", "list", "999", "-m"])
-    @patch("http.cookiejar.MozillaCookieJar.load")
-    def test_show_files_folders_from_project(self, mock_load):
-        """
-        Test list command shows files and folders under a project
         """
         cookie_mock = mock_open(read_data=get_mock_cookie_jar())
 
@@ -160,7 +76,7 @@ class TestListcommand(unittest.TestCase):
                     self.remove_ansi_escape_sequences(captured), expected_output
                 )
 
-    @patch("sys.argv", ["script_name", "list", "999", "-r"])
+    @patch("sys.argv", ["script_name", "list", "999"])
     @patch("http.cookiejar.MozillaCookieJar.load")
     def test_show_project_recursively(self, mock_load):
         """
