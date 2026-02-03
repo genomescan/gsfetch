@@ -4,7 +4,7 @@ import os
 from src.helpers import print_functions
 from src.variables import (
     DOWNLOAD_EXAMPLE_MESSAGE,
-    GSPORT_VERSION,
+    GSCLI_VERSION,
     HOST_URL,
     LIST_EXAMPLE_MESSAGE,
 )
@@ -15,7 +15,7 @@ class Options:
         # Create the parser for gsport.
         parser = argparse.ArgumentParser(
             prog="gsport",
-            description="GSPORT command-line tool for accessing GenomeScans new Customer Portal",
+            description="GSPORT command-line tool to replace old GSPORT tool with newer arguments",
         )
         subparsers = parser.add_subparsers(
             title="subcommands",
@@ -42,7 +42,7 @@ class Options:
             "--version",
             help="show the software version and exit",
             action="version",
-            version=f"%(prog)s {GSPORT_VERSION}",
+            version=f"%(prog)s {GSCLI_VERSION}",
         )
         parser.add_argument(
             "-p",
