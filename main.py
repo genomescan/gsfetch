@@ -1,8 +1,10 @@
+import multiprocessing
 import sys
 
 from src.classes import Options, Session
 from src.helpers.downloads import download
 from src.helpers.listings import get_listing, list_all_projects
+from src.helpers.print_functions import print_error
 
 
 def main():
@@ -18,7 +20,13 @@ def main():
 
 if __name__ == "__main__":
     try:
+        multiprocessing.freeze_support()
         main()
     except KeyboardInterrupt:
         print()
-        exit(1)
+        sys.exit(1)
+    except KeyError:
+        print_error(
+            "An error has occurred, please try again later or contact the development team"
+        )
+        sys.exit(1)

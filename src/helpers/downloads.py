@@ -1,4 +1,5 @@
 import os
+import sys
 from pathlib import Path
 from typing import Dict, List, Union
 
@@ -54,6 +55,11 @@ def _expand_requested(session, requested: List[str]) -> List[str]:
                 params={"cd": Path(f"{session.options.project}/{file}").as_posix()},
                 verify=CA_BUNDLE,
             )
+            if response.status_code == 404:
+                print_error(
+                    "No available files to download under that directory, make sure directory is correct or files have not expired"
+                )
+                sys.exit(1)
             expanded.extend(
                 expand_directory(
                     response.json(),
@@ -100,11 +106,11 @@ def download(session: Session) -> None:
             verify=CA_BUNDLE,
         )
     else:
-        exit(1)
+        sys.exit(1)
 
     if response.status_code != 200:
         print_error(response.text)
-        exit(1)
+        sys.exit(1)
     datafiles = get_list(response.json(), session.options.output)
     if session.options.download:
         # Remove duplicates if present
@@ -124,9 +130,9 @@ def download(session: Session) -> None:
                 datafiles.append(allowed[file])
         if not len(datafiles) > 0:
             print("No valid files to download")
-            exit(1)
+            sys.exit(1)
         if input("Continuing on with the download of the existing files? (y/n)") != "y":
-            exit(1)
+            sys.exit(1)
 
     if not os.path.isdir(
         session.options.output

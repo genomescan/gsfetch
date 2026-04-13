@@ -1,10 +1,10 @@
 import json
 import os
+import sys
 import time
 from getpass import getpass
 from multiprocessing import Queue
 from pathlib import Path
-from typing import Dict
 
 import requests
 
@@ -62,20 +62,20 @@ class Session:
         )  # set the cookie.
         print_info("[login] Get login page")
         # Perform a GET request to obtain the CSRF token
-        response = session.get(HOST_URL + LOGIN_URL, verify=CA_BUNDLE)
+        response = session.get(HOST_URL + LOGIN_URL)
         csrftoken = response.cookies["csrftoken"]
         success = False
         while not success:
-            email = input("Username: ")
+            username = input("Username: ")
             psw = getpass()
             login_data = dict(
-                email=email, password=psw, csrfmiddlewaretoken=csrftoken, next="/"
+                username=username, password=psw, csrfmiddlewaretoken=csrftoken, next="/"
             )
             response = session.post(
                 self.options.host + LOGIN_URL,
                 data=login_data,
                 headers=dict(Referer=self.options.host + LOGIN_URL),
-                verify=False,
+                verify=CA_BUNDLE,
             )
             # try to log in.
             if response.status_code != 200:
@@ -84,7 +84,7 @@ class Session:
             login_data = dict(
                 token=input("Token: "),
                 password=psw,
-                email=email,
+                username=username,
                 csrfmiddlewaretoken=csrftoken,
                 next="/",
             )
@@ -95,7 +95,6 @@ class Session:
                     "Referer": self.options.host + LOGIN_URL,
                     "User-Agent": "gsport " + GSCLI_VERSION,
                 },
-                verify=CA_BUNDLE,
             )
             if response.status_code != 200:
                 print_error(response.text)
@@ -108,7 +107,7 @@ class Session:
         print_info("[login] Done.")
         self.cookies = session.cookies
 
-    def download_file(self, url: str, params: Dict, fsize: int, fname: str) -> None:
+    def download_file(self, url: str, fsize: int, fname: str) -> None:
         """
             Download the file by streaming the dat from the url.
         :param url: The download link.
@@ -116,18 +115,18 @@ class Session:
         :param fname: The filename.
         :return: None
         """
-
         try:
             dsize = 0
             start = time.time()
+
             with requests.get(
-                url, stream=True, cookies=self.cookies, params=params, verify=CA_BUNDLE
+                url, stream=True, cookies=self.cookies, verify=CA_BUNDLE
             ) as r:  # Start the download.
                 self.options.dir = "/".join(self.options.dir.split("/")[:-1])
 
                 if self.options.dir == "":
                     self.options.dir = ""
-                with open(fname, "wb+") as f:
+                with open(fname, "wb") as f:
                     for chunk in r.iter_content(chunk_size=8192):
                         if chunk:  # filter out keep-alive new chunks
                             f.write(chunk)
@@ -142,10 +141,10 @@ class Session:
                                     + str(round(dsize / fsize * 100))
                                     + "% "
                                     + str(size_of_metric_fmt(rate))
-                                    + "/sec "
-                                    + "ETA:"
-                                    + human_readable_eta((fsize - dsize) / rate),
-                                    end="",
+                                    + "/sec ",
+                                    "ETA:",
+                                    human_readable_eta((fsize - dsize) / rate),
+                                    end="     ",
                                 )
                             else:
                                 self.queue.put([len(chunk), False])
@@ -165,8 +164,8 @@ class Session:
                 print_info("[logout] Logged out.")
             else:
                 print_error("[logout] Error logging out.")
-                exit(1)
+                sys.exit(1)
             # TODO: Add code to delete cookie from system.
         except FileNotFoundError:
             print_info("[session] No cookies found to clear. exiting...")
-        exit(0)
+        sys.exit(0)

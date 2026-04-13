@@ -9,3 +9,7 @@
 build/
 output/
 *.egg-info
+.env
+build/
+dist/
+*.spec
