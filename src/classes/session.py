@@ -66,10 +66,10 @@ class Session:
         csrftoken = response.cookies["csrftoken"]
         success = False
         while not success:
-            username = input("Username: ")
+            email = input("Email: ")
             psw = getpass()
             login_data = dict(
-                username=username, password=psw, csrfmiddlewaretoken=csrftoken, next="/"
+                email=email, password=psw, csrfmiddlewaretoken=csrftoken, next="/"
             )
             response = session.post(
                 self.options.host + LOGIN_URL,
@@ -84,7 +84,7 @@ class Session:
             login_data = dict(
                 token=input("Token: "),
                 password=psw,
-                username=username,
+                email=email,
                 csrfmiddlewaretoken=csrftoken,
                 next="/",
             )
@@ -95,6 +95,7 @@ class Session:
                     "Referer": self.options.host + LOGIN_URL,
                     "User-Agent": "gsport " + GSCLI_VERSION,
                 },
+                verify=CA_BUNDLE,
             )
             if response.status_code != 200:
                 print_error(response.text)
