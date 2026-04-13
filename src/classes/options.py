@@ -1,6 +1,5 @@
 import argparse
 import os
-from pathlib import Path
 
 from src.helpers import print_functions
 from src.variables import (
@@ -114,7 +113,7 @@ class Options:
         subparser_download.set_defaults(func=self.D)
 
         # Parse arguments.
-        args = parser.parse_args(argv[1:])
+        args = parser.parse_args()
 
         self.host: str = (
             args.host
@@ -152,7 +151,7 @@ class Options:
         if args.PROJECT is None:
             self.get_projects = True
             return
-        self.dir = Path(args.PATH).as_posix()
+        self.dir = args.PATH + "/"
         self.recursive = not args.non_recursive
         self.project = args.PROJECT
         self.listing = True
