@@ -12,9 +12,9 @@ from src.variables import (
 
 class Options:
     def __init__(self, argv):
-        # Create the parser for gsport.
+        # Create the parser for gscli.
         parser = argparse.ArgumentParser(
-            prog="gsport",
+            prog="gscli",
             description="GSPORT command-line tool to replace old GSPORT tool with newer arguments",
         )
         subparsers = parser.add_subparsers(
@@ -54,7 +54,9 @@ class Options:
         # List of shared commands for subcommands.
         project_parser = argparse.ArgumentParser(add_help=False)
         project_parser.add_argument(
-            "PROJECT", help="[projectcode] for specific projects"
+            "PROJECT",
+            help="[projectcode] for specific projects",
+            nargs="?",
         )
 
         download_and_listing_shared = argparse.ArgumentParser(add_help=False)
@@ -146,6 +148,9 @@ class Options:
         :param args: The argument Namespace object.
         :return: None
         """
+        if args.PROJECT is None:
+            self.get_projects = True
+            return
         self.dir = args.PATH + "/"
         self.recursive = not args.non_recursive
         self.project = args.PROJECT
