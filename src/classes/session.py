@@ -62,7 +62,7 @@ class Session:
         )  # set the cookie.
         print_info("[login] Get login page")
         # Perform a GET request to obtain the CSRF token
-        response = session.get(HOST_URL + LOGIN_URL)
+        response = session.get(HOST_URL + LOGIN_URL, verify=CA_BUNDLE)
         csrftoken = response.cookies["csrftoken"]
         success = False
         while not success:
