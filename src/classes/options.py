@@ -152,7 +152,7 @@ class Options:
         if args.PROJECT is None:
             self.get_projects = True
             return
-        self.dir = Path(args.cd).as_posix()
+        self.dir = Path(args.PATH).as_posix()
         self.recursive = not args.non_recursive
         self.project = args.PROJECT
         self.listing = True
