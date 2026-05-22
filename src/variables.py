@@ -10,10 +10,10 @@ LOGGED_IN_URL = "login/logged-in"
 TWO_FACTOR_AUTH_URL = "login/two-factor"
 LIST_RECURSIVE = "api/projects/"
 LOGOUT_URL = "api/logout"
-HOST_URL = os.getenv("HOST_URL", "https://dev.portal.genomescan.nl")
+HOST_URL = os.getenv("HOST_URL", "https://dev.portal.genomescan.nl/")
 VERIFY_FILES_URL = "api/downloads/"
 DOWNLOAD_FILE_URL = "api/downloads/verify/"
-CA_BUNDLE = False
+CA_BUNDLE = True
 
 
 LIST_EXAMPLE_MESSAGE = """
