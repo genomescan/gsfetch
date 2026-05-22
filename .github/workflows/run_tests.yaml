@@ -1,4 +1,4 @@
-name: gsport test runner
+name: gscli test runner
 
 # trigger the test workflow
 on:
