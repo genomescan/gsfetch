@@ -7,5 +7,4 @@ from .helpers import (
     print_functions,
     sizeofmetric,
     url,
-    usage,
 )
