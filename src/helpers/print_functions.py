@@ -1,7 +1,7 @@
 import sys
 from typing import Any, Dict, List
 
-from src.helpers.utils import format_size, is_file
+from src.helpers.utils import is_file
 
 if sys.version_info >= (3, 10, 0):
     from terminalcolorpy import colored, printcolor
@@ -63,18 +63,14 @@ def print_rec(dic, depth: int = 0) -> None:
                     "├──",
                     colored(text=file["name"], color="yellow"),
                     "Size: ",
-                    colored(text=format_size(str(file["size"])), color="red"),
-                    "Status: ",
-                    colored(text=str(file["file_status"]), color="red"),
+                    colored(text=str(file["size"]), color="red"),
                 )
             else:
-                print(
+                print (
                     "├── "
                     + file["name"]
                     + " Size: "
-                    + format_size(str(file["size"]))
-                    + " Status: "
-                    + str(file["file_status"]),
+                    + str(file["size"])
                 )
 
 
@@ -91,18 +87,14 @@ def print_only_files(project_code: str, data: List[Dict[str, Any]]) -> None:
                     "└──",
                     colored(text=file["name"], color="yellow"),
                     "Size: ",
-                    colored(text=format_size(str(file["size"])), color="red"),
-                    "Status: ",
-                    colored(text=str(file["file_status"]), color="red"),
+                    colored(text=str(file["size"]), color="red"),
                 )
             else:
                 print(
                     "└── "
                     + file["name"]
                     + " Size: "
-                    + format_size(str(file["size"]))
-                    + " Status: "
-                    + str(file["file_status"])
+                    + str(file["size"])
                 )
     if file_count == 0:
         print_warning("No files were found in the project root directory")
@@ -124,16 +116,12 @@ def print_folders(data: Dict) -> None:
                         "└──",
                         colored(text=file["name"], color="yellow"),
                         "Size: ",
-                        colored(text=format_size(str(file["size"])), color="red"),
-                        "Status: ",
-                        colored(text=str(file["file_status"]), color="red"),
+                        colored(text=str(file["size"]), color="red"),
                     )
                 else:
                     print(
                         "└──",
                         file["name"],
                         "Size: ",
-                        format_size(str(file["size"])),
-                        "Status: ",
-                        str(file["file_status"]),
+                        str(file["size"]),
                     )
