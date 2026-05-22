@@ -10,7 +10,7 @@ from src.helpers.listings import get_list
 from src.helpers.print_functions import print_error, print_file, print_warning
 from src.helpers.url import get_url
 from src.helpers.utils import is_file
-from src.variables import CA_BUNDLE, DOWNLOAD_FILE_URL, LIST_RECURSIVE
+from src.variables import DOWNLOAD_FILE_URL, LIST_RECURSIVE
 
 
 def _get_file_names(files: List[Dict[str, str]]) -> Dict[str, Dict[str, str]]:
@@ -53,7 +53,6 @@ def _expand_requested(session, requested: List[str]) -> List[str]:
                 session.options.host + LIST_RECURSIVE + session.options.project,
                 cookies=session.cookies,
                 params={"cd": Path(f"{session.options.project}/{file}").as_posix()},
-                verify=CA_BUNDLE,
             )
             if response.status_code == 404:
                 print_error(
@@ -93,7 +92,6 @@ def download(session: Session) -> None:
             + "/recursive",
             cookies=session.cookies,
             params={"cd": session.options.dir},
-            verify=CA_BUNDLE,
         )
     elif session.options.download_all:
         response = requests.get(
@@ -103,7 +101,6 @@ def download(session: Session) -> None:
             + "/dirs",
             cookies=session.cookies,
             params={"cd": session.options.dir},
-            verify=CA_BUNDLE,
         )
     else:
         sys.exit(1)
