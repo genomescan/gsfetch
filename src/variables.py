@@ -25,11 +25,11 @@ example usage:
 """
 DOWNLOAD_EXAMPLE_MESSAGE = """
 example usage:
-  gscli download 100000                                        Download all project recursively
+  gscli download 100000                                        Download all files of the project recursively
   gscli download 100000 -n                                     Downloads only file in the project root directory
   gscli download 100000 directory                              Downloads all files inside directory recursively
   gscli download 100000 -n directory                           Downloads only the files in the directory, non recursively
-  gscli download 100000 -o output                              Downloads files to folder output
-  gscli download 100000 file, file                             Downloads list of files
-  gscli download 100000 directory, file                        Downloads directory recursively and specific file
+  gscli download 100000 -o output                              Downloads all files of the prohect to the folder named output
+  gscli download 100000 file file                              Downloads all the files seperated by commas
+  gscli download 100000 directory file                         Downloads directory recursively and specific file
 """

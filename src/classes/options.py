@@ -97,6 +97,7 @@ class Options:
         # Download subcommand.
         subparser_download = subparsers.add_parser(
             "download",
+            formatter_class=argparse.RawDescriptionHelpFormatter,
             help="download specified files",
             description="this allows the download of individual files, use the full path for files",
             epilog=DOWNLOAD_EXAMPLE_MESSAGE,
