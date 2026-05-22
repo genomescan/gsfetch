@@ -5,6 +5,7 @@ import time
 from getpass import getpass
 from multiprocessing import Queue
 from pathlib import Path
+from typing import Dict
 
 import requests
 
@@ -108,10 +109,11 @@ class Session:
         print_info("[login] Done.")
         self.cookies = session.cookies
 
-    def download_file(self, url: str, fsize: int, fname: str) -> None:
+    def download_file(self, url: str, params: Dict, fsize: int, fname: str) -> None:
         """
             Download the file by streaming the dat from the url.
         :param url: The download link.
+        :param params: Parameters of the download.
         :param fsize: The file size in bytes.
         :param fname: The filename.
         :return: None
@@ -121,7 +123,7 @@ class Session:
             start = time.time()
 
             with requests.get(
-                url, stream=True, cookies=self.cookies, verify=CA_BUNDLE
+                url, stream=True, cookies=self.cookies, params=params, verify=CA_BUNDLE
             ) as r:  # Start the download.
                 self.options.dir = "/".join(self.options.dir.split("/")[:-1])
 
