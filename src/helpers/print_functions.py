@@ -64,9 +64,18 @@ def print_rec(dic, depth: int = 0) -> None:
                     colored(text=file["name"], color="yellow"),
                     "Size: ",
                     colored(text=str(file["size"]), color="red"),
+                    "Status: ",
+                    colored(text=str(file["file_status"]), color="red"),
                 )
             else:
-                print("├── " + file["name"] + " Size: " + str(file["size"]))
+                print(
+                    "├── "
+                    + file["name"]
+                    + " Size: "
+                    + str(file["size"])
+                    + " Status: "
+                    + str(file["file_status"]),
+                )
 
 
 def print_only_files(project_code: str, data: List[Dict[str, Any]]) -> None:
@@ -83,9 +92,18 @@ def print_only_files(project_code: str, data: List[Dict[str, Any]]) -> None:
                     colored(text=file["name"], color="yellow"),
                     "Size: ",
                     colored(text=str(file["size"]), color="red"),
+                    "Status: ",
+                    colored(text=str(file["file_status"]), color="red"),
                 )
             else:
-                print("└── " + file["name"] + " Size: " + str(file["size"]))
+                print(
+                    "└── "
+                    + file["name"]
+                    + " Size: "
+                    + str(file["size"])
+                    + " Status: "
+                    + str(file["file_status"])
+                )
     if file_count == 0:
         print_warning("No files were found in the project root directory")
 
@@ -107,6 +125,8 @@ def print_folders(data: Dict) -> None:
                         colored(text=file["name"], color="yellow"),
                         "Size: ",
                         colored(text=str(file["size"]), color="red"),
+                        "Status: ",
+                        colored(text=str(file["file_status"]), color="red"),
                     )
                 else:
                     print(
@@ -114,4 +134,6 @@ def print_folders(data: Dict) -> None:
                         file["name"],
                         "Size: ",
                         str(file["size"]),
+                        "Status: ",
+                        str(file["file_status"]),
                     )

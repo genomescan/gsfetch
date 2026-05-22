@@ -70,7 +70,7 @@ class TestListcommand(unittest.TestCase):
 
                 captured = captured.getvalue()
 
-                expected_output = "[session] cookies found.\n999\n└── test_10G.txt Size:  10.0GB\n└── test2_10G.txt Size:  10.0GB\n"
+                expected_output = "[session] cookies found.\n999\n└── test_10G.txt Size:  10.0GB Status:  normal\n└── test2_10G.txt Size:  10.0GB Status:  normal\n"
 
                 self.assertEqual(
                     self.remove_ansi_escape_sequences(captured), expected_output
@@ -111,7 +111,7 @@ class TestListcommand(unittest.TestCase):
 
                 captured = captured.getvalue()
 
-                expected_output = "[session] cookies found.\n999\n    └── test_map_salah\n        ├── 3660_Color_palette (1).pdf Size:  517.9KB\n    ├── test_10G.txt Size:  10.0GB\n    ├── test2_10G.txt Size:  10.0GB\n"
+                expected_output = "[session] cookies found.\n999\n    └── test_map_salah\n        ├── 3660_Color_palette (1).pdf Size:  517.9KB Status:  normal\n    ├── test_10G.txt Size:  10.0GB Status:  normal\n    ├── test2_10G.txt Size:  10.0GB Status:  normal\n"
 
                 self.assertEqual(
                     self.remove_ansi_escape_sequences(captured), expected_output
