@@ -66,12 +66,7 @@ def print_rec(dic, depth: int = 0) -> None:
                     colored(text=str(file["size"]), color="red"),
                 )
             else:
-                print (
-                    "├── "
-                    + file["name"]
-                    + " Size: "
-                    + str(file["size"])
-                )
+                print("├── " + file["name"] + " Size: " + str(file["size"]))
 
 
 def print_only_files(project_code: str, data: List[Dict[str, Any]]) -> None:
@@ -90,12 +85,7 @@ def print_only_files(project_code: str, data: List[Dict[str, Any]]) -> None:
                     colored(text=str(file["size"]), color="red"),
                 )
             else:
-                print(
-                    "└── "
-                    + file["name"]
-                    + " Size: "
-                    + str(file["size"])
-                )
+                print("└── " + file["name"] + " Size: " + str(file["size"]))
     if file_count == 0:
         print_warning("No files were found in the project root directory")
 
