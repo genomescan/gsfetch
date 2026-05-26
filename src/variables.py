@@ -18,6 +18,7 @@ CA_BUNDLE = True
 
 LIST_EXAMPLE_MESSAGE = """
 example usage:
+  gscli list                                                   Show all projects currently available to you
   gscli list 100000                                            Show all project recursively
   gscli list 100000 -n                                         Show only file in the project root directory
   gscli list 100000 directory                                  Show all files inside directory recursively
