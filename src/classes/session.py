@@ -130,7 +130,7 @@ class Session:
                 if self.options.dir == "":
                     self.options.dir = ""
                 with open(fname, "wb") as f:
-                    for chunk in r.iter_content(chunk_size=8192):
+                    for chunk in r.iter_content(chunk_size=1024 * 1024):
                         if chunk:  # filter out keep-alive new chunks
                             f.write(chunk)
 

@@ -22,7 +22,7 @@ example usage:
   gscli list 100000                                            Show all project recursively
   gscli list 100000 -n                                         Show only file in the project root directory
   gscli list 100000 directory                                  Show all files inside directory recursively
-  gscli list 100000 -n directory                               Show only the files in the directory, non recursively
+  gscli list 100000 directory -n                               Show only the files in the directory, non recursively
 """
 DOWNLOAD_EXAMPLE_MESSAGE = """
 example usage:

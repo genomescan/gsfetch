@@ -79,6 +79,9 @@ def download(session: Session) -> None:
     :param session: The session object.
     :return: None
     """
+    if session.options.project is None:
+        print_error("No project provided")
+        sys.exit(1)
     if (
         session.options.dir.split("/")[0] != session.options.project
         and session.options.dir != "./"

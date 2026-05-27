@@ -44,12 +44,6 @@ class Options:
             action="version",
             version=f"%(prog)s {GSCLI_VERSION}",
         )
-        parser.add_argument(
-            "-p",
-            "--projects",
-            help="show all the projects that a user has access to",
-            action="store_true",
-        )
 
         # List of shared commands for subcommands.
         project_parser = argparse.ArgumentParser(add_help=False)
@@ -134,7 +128,7 @@ class Options:
         )
         self.folder_mode: bool = False  # Show only directories in list sub-command.
         self.dir: str = ""
-        self.get_projects: bool = args.projects  # Show all user projects?
+        self.get_projects: bool = False
         self.output: str = "."  # The directory that the files are being saved to.
 
         if args.host != parser.get_default("host"):
