@@ -1,6 +1,6 @@
-# GScli
+# GSFetch
 
-GScli is a command-line tool designed to accelerate file downloads from the GenomeScan Customer Portal. It leverages multiprocessing to significantly improve download speeds and efficiency. Works on linux, windows and macOS. 
+GSFetch is a command-line tool designed to accelerate file downloads from the GenomeScan Customer Portal. It leverages multiprocessing to significantly improve download speeds and efficiency. Works on linux, windows and macOS. 
 
 
 ## Installation
@@ -20,12 +20,12 @@ This is only available for Windows and linux at the moment. Simply download the 
 ### Prerequisites
 
 Ensure you have the following installed:
-- Python 3.10.X
+- Python 3.8.X
 - Pip (Python package manager)
 - python-venv (Linux/ macOS) or virtualenv(windows)
 
 ```bash
-pip install gscli
+pip install gsfetch
 ```
 
 ## 3: Manual install
@@ -41,8 +41,8 @@ Ensure you have the following installed:
 ### Linux/macOS
 
 ```bash
-git clone https://github.com/genomescan/gscli.git
-cd gscli
+git clone https://github.com/genomescan/gsfetch.git
+cd gsfetch
 python3 -m venv env
 source env/bin/activate
 pip install -r requirements.txt
@@ -51,8 +51,8 @@ pip install -r requirements.txt
 ### Windows
 
 ```bash
-git clone https://github.com/genomescan/gscli.git
-cd gscli
+git clone https://github.com/genomescan/gsfetch.git
+cd gsfetch
 virtualenv env
 env\Scripts\activate.bat
 pip install -r requirements.txt
@@ -63,5 +63,5 @@ pip install -r requirements.txt
 To see all available options, run:
 
 ```bash
-python gscli.py --help
+python gsfetch.py --help
 ```

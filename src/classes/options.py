@@ -4,7 +4,7 @@ import os
 from src.helpers import print_functions
 from src.variables import (
     DOWNLOAD_EXAMPLE_MESSAGE,
-    GSCLI_VERSION,
+    GSFETCH_VERSION,
     HOST_URL,
     LIST_EXAMPLE_MESSAGE,
 )
@@ -12,9 +12,9 @@ from src.variables import (
 
 class Options:
     def __init__(self, argv):
-        # Create the parser for gscli.
+        # Create the parser for gsfetch.
         parser = argparse.ArgumentParser(
-            prog="gscli",
+            prog="gsfetch",
             description="GSPORT command-line tool to replace old GSPORT tool with newer arguments",
         )
         subparsers = parser.add_subparsers(
@@ -42,7 +42,7 @@ class Options:
             "--version",
             help="show the software version and exit",
             action="version",
-            version=f"%(prog)s {GSCLI_VERSION}",
+            version=f"%(prog)s {GSFETCH_VERSION}",
         )
 
         # List of shared commands for subcommands.

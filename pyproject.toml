@@ -3,15 +3,15 @@ requires = ["build", "setuptools>=42", "wheel>=0.36.2"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "gscli"
-version = "1.0.0"
+name = "gsfetch"
+version = "0.1.0"
 description = "Download manager for genomscan portal"
 authors = [
     {name = "b.vanwersch", email = "b.vanwersch@genomescan.nl"},
     {name = "g.vela", email = "gonzalov2000@gmail.com"}
 ]
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.8"
 classifiers = [
     "Programming Language :: Python :: 3",
 ]
@@ -23,11 +23,11 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/genomescan/gscli"
-Issues = "https://github.com/genomescan/gscli/issues"
+Homepage = "https://github.com/genomescan/gsfetch"
+Issues = "https://github.com/genomescan/gsfetch/issues"
 
 [project.scripts]
-gscli = "main:main"
+gsfetch = "main:main"
 
 [tool.setuptools]
 include-package-data = false

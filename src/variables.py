@@ -1,7 +1,7 @@
 import os
 
-GSCLI_VERSION = "1.0"
-CLIENT_VERSION = f"CLI_{GSCLI_VERSION}"
+GSFETCH_VERSION = "0.1.0"
+CLIENT_VERSION = f"CLI_{GSFETCH_VERSION}"
 
 
 ALL_PROJECTS_API = "api/projects"
@@ -18,19 +18,19 @@ CA_BUNDLE = True
 
 LIST_EXAMPLE_MESSAGE = """
 example usage:
-  gscli list                                                   Show all projects currently available to you
-  gscli list 100000                                            Show all project recursively
-  gscli list 100000 -n                                         Show only file in the project root directory
-  gscli list 100000 directory                                  Show all files inside directory recursively
-  gscli list 100000 directory -n                               Show only the files in the directory, non recursively
+  gsfetch list                                                   Show all projects currently available to you
+  gsfetch list 100000                                            Show all project recursively
+  gsfetch list 100000 -n                                         Show only file in the project root directory
+  gsfetch list 100000 directory                                  Show all files inside directory recursively
+  gsfetch list 100000 directory -n                               Show only the files in the directory, non recursively
 """
 DOWNLOAD_EXAMPLE_MESSAGE = """
 example usage:
-  gscli download 100000                                        Download all files of the project recursively
-  gscli download 100000 -n                                     Downloads only file in the project root directory
-  gscli download 100000 directory                              Downloads all files inside directory recursively
-  gscli download 100000 directory -n                           Downloads only the files in the directory, non recursively
-  gscli download 100000 -o output                              Downloads all files of the prohect to the folder named output
-  gscli download 100000 file file                              Downloads all the files seperated by commas
-  gscli download 100000 directory file                         Downloads directory recursively and specific file
+  gsfetch download 100000                                        Download all files of the project recursively
+  gsfetch download 100000 -n                                     Downloads only file in the project root directory
+  gsfetch download 100000 directory                              Downloads all files inside directory recursively
+  gsfetch download 100000 directory -n                           Downloads only the files in the directory, non recursively
+  gsfetch download 100000 -o output                              Downloads all files of the prohect to the folder named output
+  gsfetch download 100000 file file                              Downloads all the files seperated by commas
+  gsfetch download 100000 directory file                         Downloads directory recursively and specific file
 """

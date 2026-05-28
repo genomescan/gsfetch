@@ -15,7 +15,7 @@ from src.helpers.print_functions import print_error, print_info, print_warning
 from src.helpers.sizeofmetric import size_of_metric_fmt
 from src.variables import (
     CA_BUNDLE,
-    GSCLI_VERSION,
+    GSFETCH_VERSION,
     HOST_URL,
     LOGGED_IN_URL,
     LOGIN_URL,
@@ -94,7 +94,7 @@ class Session:
                 data=login_data,
                 headers={
                     "Referer": self.options.host + LOGIN_URL,
-                    "User-Agent": "gsport " + GSCLI_VERSION,
+                    "User-Agent": "gsport " + GSFETCH_VERSION,
                 },
                 verify=CA_BUNDLE,
             )
@@ -168,7 +168,6 @@ class Session:
             else:
                 print_error("[logout] Error logging out.")
                 sys.exit(1)
-            # TODO: Add code to delete cookie from system.
         except FileNotFoundError:
             print_info("[session] No cookies found to clear. exiting...")
         sys.exit(0)
