@@ -23,6 +23,7 @@ example usage:
   gsfetch list 100000 -n                                         Show only file in the project root directory
   gsfetch list 100000 directory                                  Show all files inside directory recursively
   gsfetch list 100000 directory -n                               Show only the files in the directory, non recursively
+  gsfetch list 100000 -md5                                       Show a list of md5sum file pairs to allow for checking of correct file transfers
 """
 DOWNLOAD_EXAMPLE_MESSAGE = """
 example usage:
