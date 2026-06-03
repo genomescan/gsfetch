@@ -51,19 +51,20 @@ def get_listing(session: Session) -> None:
     else:
         print_error(f"[get_listing] Error reading response: {response.text}")
         sys.exit(1)
-
     if session.options.dir != "./":
-        print_dir(datafiles["data"][0]["children"], session, session.options.dir)
+        print_dir(
+            datafiles["data"][0]["children"],
+            session,
+            session.options.dir,
+            session.options.show_md5,
+        )
         return
     if session.options.recursive:
-        print_rec(datafiles["data"], 0)
+        print_rec(datafiles["data"], session.options.show_md5)
     else:
-        if not session.options.folder_mode:
-            print_only_files(session.options.project, datafiles["data"][0]["children"])
-            return
-        else:
+        if not session.options.show_md5:
             print_info(session.options.project)
-            print_folders(datafiles["data"][0]["children"])
+        print_folders(datafiles["data"][0]["children"], session.options.show_md5)
 
 
 def list_all_projects(session) -> None:
@@ -109,7 +110,7 @@ def get_list(res, session_dir):
     return flist
 
 
-def print_dir(data: Dict, session: Session, directory: str) -> None:
+def print_dir(data: Dict, session: Session, directory: str, show_md5: bool) -> None:
     """
         Prints the files for an specific directory.
     :param dic: An iterable containing dictionaries with the keys "children", "size" and "name".
@@ -122,13 +123,11 @@ def print_dir(data: Dict, session: Session, directory: str) -> None:
             if file["name"] == dir_parts[0]:
                 print_info(file["name"])
                 if len(dir_parts) > 1:
-                    print_dir(file["children"], session, dir_parts[1])
+                    print_dir(file["children"], session, dir_parts[1], show_md5)
                 elif session.options.recursive:
-                    print_rec(file["children"], 1)
-                elif session.options.folder_mode:
-                    print_folders(file["children"])
+                    print_rec(file["children"], depth=1, show_md5=show_md5)
                 else:
-                    print_only_files(None, file["children"])
+                    print_only_files(None, file["children"], show_md5)
                 return
             else:
-                print_dir(file["children"], session, directory)
+                print_dir(file["children"], session, directory, show_md5)

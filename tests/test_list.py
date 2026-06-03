@@ -65,13 +65,11 @@ class TestListcommand(unittest.TestCase):
 
                 captured = StringIO()
                 sys.stdout = captured
-
                 main()
 
                 captured = captured.getvalue()
 
-                expected_output = "[session] cookies found.\n999\n└── test_10G.txt Size:  10.0GB Status:  normal\n└── test2_10G.txt Size:  10.0GB Status:  normal\n"
-
+                expected_output = "[session] cookies found.\n999\n└── test_map_salah\n└── test_10G.txt Size:  10.0GB Status:  normal\n└── test2_10G.txt Size:  10.0GB Status:  normal\n"
                 self.assertEqual(
                     self.remove_ansi_escape_sequences(captured), expected_output
                 )

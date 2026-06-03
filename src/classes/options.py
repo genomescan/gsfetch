@@ -78,6 +78,13 @@ class Options:
             epilog=LIST_EXAMPLE_MESSAGE,
             parents=[project_parser, download_and_listing_shared],
         )
+        subparser_list.add_argument(
+            "-md5",
+            "--md5sums",
+            action="store_true",
+            default=False,
+            help="Print a flat list of the paths and md5sums for all files within the list command",
+        )
         list_options_group = subparser_list.add_mutually_exclusive_group()
         list_options_group.add_argument(
             "PATH",
@@ -87,7 +94,6 @@ class Options:
             "Files in the root directory or [DIR]",
         )
         subparser_list.set_defaults(func=self.L)
-
         # Download subcommand.
         subparser_download = subparsers.add_parser(
             "download",
@@ -120,13 +126,13 @@ class Options:
         self.project: str | None = (
             None  # The projectcode that the user requests things from.
         )
+        self.show_md5 = False
         self.clear_cookies: bool = (
             args.clear_cookies
         )  # Clear the cookies, must be logged in to clear cookies.
         self.threads: int = (
             1  # The amount of threads being used for multithreading, Linux only.
         )
-        self.folder_mode: bool = False  # Show only directories in list sub-command.
         self.dir: str = ""
         self.get_projects: bool = False
         self.output: str = "."  # The directory that the files are being saved to.
@@ -150,6 +156,7 @@ class Options:
         self.recursive = not args.non_recursive
         self.project = args.PROJECT
         self.listing = True
+        self.show_md5 = args.md5sums
 
     def D(self, args):
         """
