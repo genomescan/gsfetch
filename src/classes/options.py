@@ -116,9 +116,7 @@ class Options:
         # Parse arguments.
         args = parser.parse_args()
 
-        self.host: str = (
-            args.host
-        )  # The host site that gsport should make connection to.
+        self.host: str = args.host
         self.download: list | None = None  # When the download option is being used the files are saved in a list.
         self.download_all: bool = False  # Is the all option being used.
         self.listing: bool = False  # Is the list option being used.
@@ -142,6 +140,8 @@ class Options:
 
         if args.subparser_name is not None:
             args.func(args)
+        else:
+            print(f"gsfetch version {GSFETCH_VERSION} type --help for more information")
 
     def L(self, args):
         """
