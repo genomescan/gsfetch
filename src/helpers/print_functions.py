@@ -48,11 +48,11 @@ def print_rec(
             if not show_md5:
                 for _ in range(depth * 2):
                     print("  ", end="")
-            if show_md5:
-                pass
-            elif depth != 0:
-                print("└──", end="")
-            print_info(file["name"])
+            if not show_md5:
+                if depth != 0:
+                    print("└──", end="")
+            if not show_md5:
+                print_info(file["name"])
             print_rec(
                 file["children"],
                 show_md5,

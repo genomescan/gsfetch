@@ -15,7 +15,7 @@ class Options:
         # Create the parser for gsfetch.
         parser = argparse.ArgumentParser(
             prog="gsfetch",
-            description="GSPORT command-line tool to replace old GSPORT tool with newer arguments",
+            description="GSFETCH command-line tool for downloading customer data from GenomeScan using a CLI",
         )
         subparsers = parser.add_subparsers(
             title="subcommands",
@@ -105,7 +105,7 @@ class Options:
         )
         subparser_download.add_argument(
             "TARGET",
-            help="Directories/Files to download seperated by spaces",
+            help="Directories/Files to download separated by spaces",
             nargs="*",
         )
         subparser_download.add_argument(
