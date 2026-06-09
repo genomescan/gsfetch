@@ -32,6 +32,6 @@ example usage:
   gsfetch download 100000 directory                              Downloads all files inside directory recursively
   gsfetch download 100000 directory -n                           Downloads only the files in the directory, non recursively
   gsfetch download 100000 -o output                              Downloads all files of the project to the folder named output
-  gsfetch download 100000 file file                              Downloads all the files separated by spaces 
+  gsfetch download 100000 file file                              Downloads all the files separated by spaces
   gsfetch download 100000 directory file                         Downloads directory recursively and specific file
 """
