@@ -15,7 +15,7 @@ class Options:
         # Create the parser for gsfetch.
         parser = argparse.ArgumentParser(
             prog="gsfetch",
-            description="GSPORT command-line tool to replace old GSPORT tool with newer arguments",
+            description="GSFETCH command-line tool for downloading customer data from GenomeScan using a CLI",
         )
         subparsers = parser.add_subparsers(
             title="subcommands",
@@ -105,7 +105,7 @@ class Options:
         )
         subparser_download.add_argument(
             "TARGET",
-            help="Directories/Files to download seperated by spaces",
+            help="Directories/Files to download separated by spaces",
             nargs="*",
         )
         subparser_download.add_argument(
@@ -116,9 +116,7 @@ class Options:
         # Parse arguments.
         args = parser.parse_args()
 
-        self.host: str = (
-            args.host
-        )  # The host site that gsport should make connection to.
+        self.host: str = args.host
         self.download: list | None = None  # When the download option is being used the files are saved in a list.
         self.download_all: bool = False  # Is the all option being used.
         self.listing: bool = False  # Is the list option being used.
@@ -142,6 +140,8 @@ class Options:
 
         if args.subparser_name is not None:
             args.func(args)
+        else:
+            print(f"gsfetch version {GSFETCH_VERSION} type --help for more information")
 
     def L(self, args):
         """

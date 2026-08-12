@@ -6,7 +6,6 @@ from typing import Dict, List, Union
 import requests
 
 from src.classes.session import Session
-from src.helpers.listings import get_list
 from src.helpers.print_functions import print_error, print_file, print_warning
 from src.helpers.url import get_url
 from src.helpers.utils import is_file
@@ -114,7 +113,7 @@ def download(session: Session) -> None:
     if response.status_code != 200:
         print_error(response.text)
         sys.exit(1)
-    datafiles = get_list(response.json(), session.options.output)
+    datafiles = _list_files(response.json(), session.options.output)
     if session.options.download:
         # Remove duplicates if present
         requested = list(set(_expand_requested(session, session.options.download)))
@@ -145,6 +144,26 @@ def download(session: Session) -> None:
     datafiles = simplify_path(datafiles)
     make_directories(datafiles, output=session.options.output)
     get_url(session, datafiles)
+
+
+def _list_files(res, session_dir):
+    flist = []
+
+    def recursive_list(dic, path):
+        for item in dic:
+            if not is_file(item):
+                d = os.path.join(path, item["name"])
+                if not os.path.isdir(d):
+                    try:
+                        os.makedirs(d)
+                    except FileExistsError:
+                        pass  # this can be the case with multithreading
+                recursive_list(item["children"], d)
+            else:
+                flist.append({"name": item["name"], "size": item["size"]})
+
+    recursive_list(res["data"], session_dir)
+    return flist
 
 
 def simplify_path(
