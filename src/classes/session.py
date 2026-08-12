@@ -40,9 +40,8 @@ class Session:
             response = requests.get(
                 options.host + LOGGED_IN_URL, cookies=self.cookies, verify=CA_BUNDLE
             ).text
-            if json.loads(response)["logged_in"]:
-                print_info("[session] cookies found.")
-            else:
+            if not json.loads(response)["logged_in"]:
+                print_info("No token found")
                 self.login()
         except FileNotFoundError:
             print_info("[session] No cookies found. Logging in...")

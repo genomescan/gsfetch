@@ -23,7 +23,7 @@ example usage:
   gsfetch list 100000 -n                                         Show only file in the project root directory
   gsfetch list 100000 directory                                  Show all files inside directory recursively
   gsfetch list 100000 directory -n                               Show only the files in the directory, non recursively
-  gsfetch list 100000 -md5                                       Show a list of md5sum file pairs to allow for checking of correct file transfers
+  gsfetch list 100000 -md5                                       Show a list of md5 sum file pairs to allow for checking of correct file transfers
 """
 DOWNLOAD_EXAMPLE_MESSAGE = """
 example usage:
@@ -31,7 +31,7 @@ example usage:
   gsfetch download 100000 -n                                     Downloads only file in the project root directory
   gsfetch download 100000 directory                              Downloads all files inside directory recursively
   gsfetch download 100000 directory -n                           Downloads only the files in the directory, non recursively
-  gsfetch download 100000 -o output                              Downloads all files of the prohect to the folder named output
-  gsfetch download 100000 file file                              Downloads all the files seperated by commas
+  gsfetch download 100000 -o output                              Downloads all files of the project to the folder named output
+  gsfetch download 100000 file file                              Downloads all the files separated by spaces
   gsfetch download 100000 directory file                         Downloads directory recursively and specific file
 """

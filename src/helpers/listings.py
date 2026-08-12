@@ -1,5 +1,4 @@
 import json
-import os
 import sys
 from pathlib import Path
 from typing import Dict
@@ -9,9 +8,7 @@ import requests
 from src.classes.session import Session
 from src.helpers.print_functions import (
     print_error,
-    print_folders,
     print_info,
-    print_only_files,
     print_rec,
     print_warning,
 )
@@ -51,27 +48,20 @@ def get_listing(session: Session) -> None:
     else:
         print_error(f"[get_listing] Error reading response: {response.text}")
         sys.exit(1)
+    max_depth = 0
     if session.options.dir != "./":
-        print_dir(
-            datafiles["data"][0]["children"],
-            session,
-            session.options.dir,
-            session.options.show_md5,
-        )
-        return
+        datafiles["data"] = [
+            find_specified_dir(datafiles["data"][0], session.options.dir)
+        ]
+        max_depth = 1
     if session.options.recursive:
-        print_rec(datafiles["data"], session.options.show_md5)
-    else:
-        if not session.options.show_md5:
-            print_info(session.options.project)
-        print_folders(datafiles["data"][0]["children"], session.options.show_md5)
+        max_depth = None
+    print_rec(datafiles["data"], session.options.show_md5, max_depth=max_depth)
 
 
 def list_all_projects(session) -> None:
     """
-        Prints all the projects a user has access to.
-    :param session: Session object.
-    :return:
+    Prints all the projects a user has access to.
     """
     print_info("[requesting projects]")
     response = requests.get(
@@ -90,44 +80,15 @@ def list_all_projects(session) -> None:
         sys.exit(1)
 
 
-def get_list(res, session_dir):
-    flist = []
-
-    def print_list(dic, path):
-        for item in dic:
-            if not is_file(item):
-                d = os.path.join(path, item["name"])
-                if not os.path.isdir(d):
-                    try:
-                        os.makedirs(d)
-                    except FileExistsError:
-                        pass  # this can be the case with multithreading
-                print_list(item["children"], d)
-            else:
-                flist.append({"name": item["name"], "size": item["size"]})
-
-    print_list(res["data"], session_dir)
-    return flist
-
-
-def print_dir(data: Dict, session: Session, directory: str, show_md5: bool) -> None:
-    """
-        Prints the files for an specific directory.
-    :param dic: An iterable containing dictionaries with the keys "children", "size" and "name".
-    :param depth: The recursive depth.
-    :return: None
-    """
-    dir_parts = [x for x in directory.split("/", maxsplit=1) if x]
-    for file in data:
-        if not is_file(file):
-            if file["name"] == dir_parts[0]:
-                print_info(file["name"])
-                if len(dir_parts) > 1:
-                    print_dir(file["children"], session, dir_parts[1], show_md5)
-                elif session.options.recursive:
-                    print_rec(file["children"], depth=1, show_md5=show_md5)
-                else:
-                    print_only_files(None, file["children"], show_md5)
-                return
-            else:
-                print_dir(file["children"], session, directory, show_md5)
+def find_specified_dir(data: Dict, directory: str, depth=0):
+    dir_parts = [x for x in directory.split("/") if x]
+    for entry in data["children"]:
+        if is_file(entry):
+            continue
+        if entry["name"] == dir_parts[depth]:
+            if depth == len(dir_parts) - 1:
+                return entry
+            found_entry = find_specified_dir(entry, directory, depth + 1)
+            if found_entry is not None:
+                return found_entry
+    return None
