@@ -28,6 +28,14 @@ Ensure you have the following installed:
 pip install gsfetch
 ```
 
+## Usage
+
+To see all available options, run:
+
+```bash
+gsfetch --help
+```
+
 ## 3: Manual install
 
 ### Prerequisites
