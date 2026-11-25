@@ -1,5 +1,7 @@
 # GSFetch
 
+## NOTE: Official release date of the new portal is 2027-01-11. Before that date we cannot guarantee that this tool works properly
+
 GSFetch is a command-line tool designed to accelerate file downloads from the GenomeScan Customer Portal. It leverages multiprocessing to significantly improve download speeds and efficiency. Works on linux, windows and macOS. 
 
 
